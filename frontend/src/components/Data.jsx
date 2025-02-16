@@ -15,9 +15,10 @@ export const Data = () => {
         const connectWallet = async () => {
             try {
                 // 0x845c15011E9f45fBF49F4D1b778FC6a51d4801CC
-                const contractAddress="0x4857D5fCDCC9b6a0F1471B4d277cddd46C66F017";
+                const contractAddress="0x00CB2796BD33f2B0129fC182DBd4b724199B29b7";
 
                 const contractABI = bytedata.abi;
+                console.log("Thisis Contrct abi : ",contractABI);
                 
                 const { ethereum } = window;
 
@@ -53,7 +54,7 @@ export const Data = () => {
             }
 
             const stock = await contract.getStock(); // Returns a BigInt
-
+            console.log("This is Stock : ",stock);
             const stockValue = Number(stock); // Convert BigInt to Number
             setStock(stockValue); // Update React state
             console.log("Current Stock:", stockValue);
@@ -63,7 +64,6 @@ export const Data = () => {
             alert("Error fetching stock: " + error.message);
         }
     }
-
     async function incrementStock() {
         try {
             const { contract } = state;
@@ -74,7 +74,7 @@ export const Data = () => {
     
             const inputElement = document.getElementById("increaseStockInput");
             const increaseAmount = parseInt(inputElement.value, 10);
-            
+    
             if (isNaN(increaseAmount) || increaseAmount <= 0) {
                 alert("Please enter a valid positive number");
                 return;
@@ -82,19 +82,17 @@ export const Data = () => {
     
             console.log("Increasing stock by:", increaseAmount);
     
-            // await contract.increaseStock(10, { gasLimit: 500000
-            // Use BigNumber
-            const tx = await contract.increaseStock(increaseAmount, { gasLimit: 3000000 });
+            const tx = await contract.increaseStock(increaseAmount, { gasLimit: 3043893281 });
+            console.log("Transaction sent:", tx);
+    
             await tx.wait(); // Wait for transaction confirmation
             alert("Stock increased!");
-
         } catch (error) {
             console.error("Error increasing stock:", error);
             alert("Error increasing stock: " + (error.reason || error.message));
         }
     }
     
-
     async function decrementStock() {
         try {
             const { contract } = state;
@@ -102,26 +100,89 @@ export const Data = () => {
                 alert("Contract not initialized!");
                 return;
             }
-
+    
             const inputElement = document.getElementById("decreaseStockInput");
             const decreaseAmount = parseInt(inputElement.value, 10); // Convert to integer
-
+    
             if (isNaN(decreaseAmount) || decreaseAmount <= 0) {
                 alert("Please enter a valid positive number");
                 return;
             }
-
-            const tx = await contract.reduceStock(decreaseAmount);
+    
+            const tx = await contract.reduceStock(decreaseAmount, { gasLimit: 3000000 });
+            console.log("Transaction sent:", tx);
+    
             await tx.wait(); // Wait for transaction confirmation
-            console.log("Tracnsactoin done",tx);
+            console.log("Transaction done:", tx);
             alert("Stock decreased!");
-
+    
             // getStock(); // Refresh stock value
         } catch (error) {
             console.error("Error decreasing stock:", error);
-            alert("Error decreasing stock: " + error.message);
+            alert("Error decreasing stock: " + (error.reason || error.message));
         }
     }
+
+    // async function incrementStock() {
+    //     try {
+    //         const { contract } = state;
+    //         if (!contract) {
+    //             alert("Contract not initialized!");
+    //             return;
+    //         }
+    
+    //         const inputElement = document.getElementById("increaseStockInput");
+    //         const increaseAmount = parseInt(inputElement.value, 10);
+            
+    //         if (isNaN(increaseAmount) || increaseAmount <= 0) {
+    //             alert("Please enter a valid positive number");
+    //             return;
+    //         }
+    
+    //         console.log("Increasing stock by:", increaseAmount);
+    
+    //         // await contract.increaseStock(10, { gasLimit: 500000
+    //         // Use BigNumber
+    //         const tx = await contract.increaseStock(increaseAmount, { gasLimit: 3000000 });
+    //         console.log("HEre");
+    //         await tx.wait(); // Wait for transaction confirmation
+    //         alert("Stock increased!");
+
+    //     } catch (error) {
+    //         console.error("Error increasing stock:", error);
+    //         alert("Error increasing stock: " + (error.reason || error.message));
+    //     }
+    // }
+    
+
+    // async function decrementStock() {
+    //     try {
+    //         const { contract } = state;
+    //         if (!contract) {
+    //             alert("Contract not initialized!");
+    //             return;
+    //         }
+
+    //         const inputElement = document.getElementById("decreaseStockInput");
+    //         const decreaseAmount = parseInt(inputElement.value, 10); // Convert to integer
+
+    //         if (isNaN(decreaseAmount) || decreaseAmount <= 0) {
+    //             alert("Please enter a valid positive number");
+    //             return;
+    //         }
+
+    //         const tx = await contract.reduceStock(decreaseAmount);
+            
+    //         await tx.wait(); // Wait for transaction confirmation
+    //         console.log("Tracnsactoin done",tx);
+    //         alert("Stock decreased!");
+
+    //         // getStock(); // Refresh stock value
+    //     } catch (error) {
+    //         console.error("Error decreasing stock:", error);
+    //         alert("Error decreasing stock: " + error.message);
+    //     }
+    // }
 
     return (
         <div>
