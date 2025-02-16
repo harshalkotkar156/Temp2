@@ -3,15 +3,14 @@ const hre = require("hardhat");
 
 async function main() {
   const MedicineStock = await hre.ethers.getContractFactory("MedicineStock"); // Fetching the contract
-  const stock = await MedicineStock.deploy(); // Deploying the contract with initial stock
+  const stock = await MedicineStock.deploy(10); // Deploying the contract with initial stock
 
   await stock.waitForDeployment(); // Wait for deployment to complete
   const contractAddress = await stock.getAddress();
-  // console.log("===========");
+  
   console.log("Deployed contract address:", contractAddress);
   console.log("HEy");
-  // console.log("Deployed contract address: ",await stock.address);
-  // console.log("===========");
+  
 }
 
 
@@ -25,11 +24,27 @@ main()
   });
 
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
-// main().catch((error) => {
-//   console.log("till here");
-//   console.error(error);
-//   process.exitCode = 1;
-// });
-//0xa64e3144835aF8781c750ceC432784a68d883266
+
+// const hre = require("hardhat");
+
+// async function main() {
+//     const MedicineStock = await hre.ethers.getContractFactory("MedicineStock");
+    
+//     // Deploy the contract with an initial stock of 10
+//     const stock = await MedicineStock.deploy(10);
+
+//     // Wait for deployment to complete
+//     await stock.waitForDeployment();
+//     const contractAddress = await stock.getAddress();
+
+//     // Get contract address
+//     console.log("Deployed contract address:", contractAddress);
+// }
+
+// // Execute deployment script
+// main()
+//     .then(() => process.exit(0))
+//     .catch((error) => {
+//         console.error("Deployment error:", error);
+//         process.exit(1);
+//     });
